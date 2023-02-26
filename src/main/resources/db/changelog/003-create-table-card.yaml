@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: denys
+      changes:
+        - createTable:
+            schemaName: bank
+            tableName: card
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: type
+                  type: text
+              - column:
+                  name: card_mask
+                  type: int
+              - column:
+                  name: exp_month
+                  type: int
+              - column:
+                  name: exp_year
+                  type: int
+              - column:
+                  name: is_default
+                  type: boolean
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user
+                    references: bank.user(id)
+
