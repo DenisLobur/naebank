@@ -4,12 +4,9 @@ import com.naebank.bank.controller.dto.CardDto;
 import com.naebank.bank.mapper.CardMapper;
 import com.naebank.bank.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +17,32 @@ public class CardController {
 
     private final CardService cardService;
 
-//    @Autowired
-//    public CardController(CardService cardService) {
-//        this.cardService = cardService;
-//    }
+    @PostMapping("/add")
+    public ResponseEntity<String> addNewCard(@RequestBody CardDto cardDto) {
+        cardService.addNewCard(
+                cardDto.getType(),
+                cardDto.getCardMask(),
+                cardDto.getExpMonth(),
+                cardDto.getExpYear(),
+                cardDto.getIsDefault()
+        );
+
+        return ResponseEntity.ok(
+                "Card " + cardDto.getType() + "[" + cardDto.getCardMask().toString() + "]" + " was created!"
+        );
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<CardDto>> getCardsByUSerId(@PathVariable Long id) {
+        List<CardDto> userCards = CardMapper.INSTANCE.toDtoList(cardService.getCardsByUserId(id));
+
+        return new ResponseEntity<>(userCards, HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<List<CardDto>> getAllCards() {
         List<CardDto> cards = CardMapper.INSTANCE.toDtoList(cardService.getAllCards());
+
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 }

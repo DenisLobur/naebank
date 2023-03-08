@@ -20,11 +20,6 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-//    @Autowired
-//    public TransactionController(TransactionService transactionService) {
-//        this.transactionService = transactionService;
-//    }
-
     @GetMapping
     public ResponseEntity<List<TransactionDto>> getAllTransactions() {
         List<TransactionDto> transactions = TransactionMapper.INSTANCE.toDtoList(transactionService.getAllTransactions());

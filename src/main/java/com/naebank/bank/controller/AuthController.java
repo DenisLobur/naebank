@@ -27,7 +27,9 @@ public class AuthController {
                 credentialDto.getRole()
         );
 
-        return ResponseEntity.ok("User " + credentialDto.getEmail() + " was created!");
+        return ResponseEntity.ok(
+                "User " + credentialDto.getName() + "[" + credentialDto.getEmail() + "]" + " was created!"
+        );
     }
 
     @PostMapping("/login")

@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: denys
+      changes:
+        - addAutoIncrement:
+            catalogName: bank
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            schemaName: bank
+            startWith: 1
+            tableName: card
