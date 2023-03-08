@@ -3,6 +3,7 @@ package com.naebank.bank.controller;
 import com.naebank.bank.controller.dto.CardDto;
 import com.naebank.bank.mapper.CardMapper;
 import com.naebank.bank.service.CardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/card")
+@RequiredArgsConstructor
 public class CardController {
 
     private final CardService cardService;
 
-    @Autowired
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
-    }
+//    @Autowired
+//    public CardController(CardService cardService) {
+//        this.cardService = cardService;
+//    }
 
     @GetMapping
     public ResponseEntity<List<CardDto>> getAllCards() {
