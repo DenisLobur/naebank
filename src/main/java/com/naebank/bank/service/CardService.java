@@ -25,6 +25,7 @@ public class CardService {
         newCard.setIsDefault(isDefault); //TODO: clear default flag from other cards
 
         //TODO: find a way of inserting userId here
+        //TODO: retrieve user from security context here
         Optional<UserEntity> currentUser = userRepository.findById(1L);
         currentUser.ifPresent(newCard::setUser);
 
