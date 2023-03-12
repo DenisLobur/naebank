@@ -1,9 +1,11 @@
 package com.naebank.bank.controller;
 
 import com.naebank.bank.config.TokenProvider;
+import com.naebank.bank.controller.dto.AuthDto;
 import com.naebank.bank.controller.dto.CredentialDto;
 import com.naebank.bank.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody CredentialDto credentialDto) {
+    public ResponseEntity<AuthDto> register(@RequestBody CredentialDto credentialDto) {
         userService.createUser(
                 credentialDto.getEmail(),
                 credentialDto.getPassword(),
@@ -27,19 +29,19 @@ public class AuthController {
                 credentialDto.getRole()
         );
 
-        return ResponseEntity.ok(
-                "User " + credentialDto.getName() + "[" + credentialDto.getEmail() + "]" + " was created!"
-        );
+        AuthDto authDto = new AuthDto(tokenProvider.createToken(credentialDto.getEmail()), null);
+        return new ResponseEntity<>(authDto, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody CredentialDto credentialDto) {
-
-        if (userService.validateCredentials(credentialDto.getEmail(),
-                credentialDto.getPassword())) {
-            return ResponseEntity.ok(tokenProvider.createToken(credentialDto.getEmail()));
+    public ResponseEntity<AuthDto> login(@RequestBody CredentialDto credentialDto) {
+        AuthDto authDto;
+        if (userService.validateCredentials(credentialDto.getEmail(), credentialDto.getPassword())) {
+            authDto = new AuthDto(tokenProvider.createToken(credentialDto.getEmail()), null);
+            return new ResponseEntity<>(authDto, HttpStatus.OK);
         }
 
-        return ResponseEntity.status(401).body("Invalid credentials");
+        authDto = new AuthDto("", "Invalid credentials");
+        return new ResponseEntity<>(authDto, HttpStatus.BAD_REQUEST);
     }
 }

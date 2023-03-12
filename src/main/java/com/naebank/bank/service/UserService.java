@@ -1,9 +1,11 @@
 package com.naebank.bank.service;
 
+import com.naebank.bank.controller.dto.UserPr;
 import com.naebank.bank.repository.UserRepository;
 import com.naebank.bank.repository.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,9 @@ public class UserService {
     }
 
     public boolean validateCredentials(String email, String password) {
-        String encodedPassword = userRepository.findByEmail(email).getPassword();
+        String encodedPassword = userRepository.findByEmail(email)
+                .map(UserEntity::getPassword)
+                .orElse("");
 
         return cryptPasswordEncoder.matches(password, encodedPassword);
     }
@@ -36,4 +40,16 @@ public class UserService {
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
+
+    //TODO: rewrite
+    public UserEntity getCurrentUser() {
+        long id = getCurrentUserId();
+        return userRepository.findById(id).get();
+    }
+
+    private long getCurrentUserId() {
+        String email = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return userRepository.findByEmail(email).get().getId();
+    }
+
 }

@@ -14,15 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = UserMapper.INSTANCE.toDtoList(userService.getAllUsers());
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        UserDto currentUser = UserMapper.INSTANCE.toDto(userService.getCurrentUser());
+        if (currentUser != null) {
+            return new ResponseEntity<>(currentUser, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
