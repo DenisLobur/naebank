@@ -1,5 +1,6 @@
 package com.naebank.bank.controller;
 
+import com.naebank.bank.controller.dto.AuthDto;
 import com.naebank.bank.controller.dto.CardDto;
 import com.naebank.bank.mapper.CardMapper;
 import com.naebank.bank.service.CardService;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/cards")
 @RequiredArgsConstructor
 public class CardController {
 
     private final CardService cardService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addNewCard(@RequestBody CardDto cardDto) {
+    @PostMapping
+    public ResponseEntity<AuthDto> addNewCard(@RequestBody CardDto cardDto) {
         cardService.addNewCard(
                 cardDto.getType(),
                 cardDto.getCardMask(),
@@ -27,12 +28,18 @@ public class CardController {
                 cardDto.getIsDefault()
         );
 
-        return ResponseEntity.ok(
-                "Card " + cardDto.getType() + "[" + cardDto.getCardMask().toString() + "]" + " was created!"
+        AuthDto authDto = new AuthDto(
+                "Card " + cardDto.getType() + "[" + cardDto.getCardMask().toString() + "]" + " was created!",
+                null
+        );
+
+        return new ResponseEntity<>(
+                authDto,
+                HttpStatus.CREATED
         );
     }
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<CardDto>> getCardsByUSerId(@PathVariable Long id) {
         List<CardDto> userCards = CardMapper.INSTANCE.toDtoList(cardService.getCardsByUserId(id));
 
