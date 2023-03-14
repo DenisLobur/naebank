@@ -30,6 +30,9 @@ databaseChangeLog:
                   name: is_default
                   type: boolean
               - column:
+                  name: amount
+                  type: int
+              - column:
                   name: user_id
                   type: bigint
                   constraints:

@@ -5,6 +5,8 @@ import com.naebank.bank.repository.UserRepository;
 import com.naebank.bank.repository.entity.CardEntity;
 import com.naebank.bank.repository.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,21 +24,25 @@ public class CardService {
         newCard.setCardMask(cardMask);
         newCard.setExpMonth(expMonth);
         newCard.setExpYear(expYear);
-        newCard.setIsDefault(isDefault); //TODO: clear default flag from other cards
+        newCard.setIsDefault(isDefault);
+        newCard.setAmount(0);
 
-        //TODO: find a way of inserting userId here
-        //TODO: retrieve user from security context here
-        Optional<UserEntity> currentUser = userRepository.findById(1L);
+        Optional<UserEntity> currentUser = userRepository.findById(getCurrentUserId());
         currentUser.ifPresent(newCard::setUser);
 
         cardRepository.save(newCard);
     }
 
-    public List<CardEntity> getCardsByUserId(long userId) {
-        return cardRepository.findByUserId(userId);
+    public List<CardEntity> getCardsByUserId(long user_id) {
+        return cardRepository.findByUserId(user_id);
     }
 
-    public List<CardEntity> getAllCards() {
-        return cardRepository.findAll();
+    public CardEntity getCardById(Long id) {
+        return cardRepository.findById(id).get();
+    }
+
+    private long getCurrentUserId() {
+        String email = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return userRepository.findByEmail(email).get().getId();
     }
 }

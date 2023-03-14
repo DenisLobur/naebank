@@ -30,6 +30,9 @@ public class CardEntity {
     @Column
     private Boolean isDefault;
 
+    @Column
+    private Integer amount;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;

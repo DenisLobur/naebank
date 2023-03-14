@@ -5,11 +5,14 @@ import com.naebank.bank.controller.dto.CardDto;
 import com.naebank.bank.mapper.CardMapper;
 import com.naebank.bank.service.CardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/cards")
@@ -39,17 +42,24 @@ public class CardController {
         );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<CardDto>> getCardsByUSerId(@PathVariable Long id) {
-        List<CardDto> userCards = CardMapper.INSTANCE.toDtoList(cardService.getCardsByUserId(id));
+    @GetMapping
+    public ResponseEntity<List<CardDto>> getCardsByUserId(@Param("user_id") Long user_id) {
+        List<CardDto> userCards = CardMapper.INSTANCE.toDtoList(cardService.getCardsByUserId(user_id));
 
         return new ResponseEntity<>(userCards, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CardDto>> getAllCards() {
-        List<CardDto> cards = CardMapper.INSTANCE.toDtoList(cardService.getAllCards());
+    @GetMapping("/{id}")
+    public ResponseEntity<CardDto> getCardById(@PathVariable("id") Long id) {
+        CardDto card = CardMapper.INSTANCE.toDto(cardService.getCardById(id));
 
-        return new ResponseEntity<>(cards, HttpStatus.OK);
+        return new ResponseEntity<>(card, HttpStatus.OK);
     }
+
+//    @GetMapping
+//    public ResponseEntity<List<CardDto>> getAllCards() {
+//        List<CardDto> cards = CardMapper.INSTANCE.toDtoList(cardService.getAllCards());
+//
+//        return new ResponseEntity<>(cards, HttpStatus.OK);
+//    }
 }

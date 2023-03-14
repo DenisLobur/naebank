@@ -15,5 +15,7 @@ public class CardDto {
 
     private Integer expYear; // 2022 - 2032
 
+    private Integer amount; // 10UAH
+
     private Boolean isDefault;
 }
