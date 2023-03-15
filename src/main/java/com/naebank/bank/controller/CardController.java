@@ -63,10 +63,10 @@ public class CardController {
         return new ResponseEntity<>(card, HttpStatus.ACCEPTED);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<CardDto>> getAllCards() {
-//        List<CardDto> cards = CardMapper.INSTANCE.toDtoList(cardService.getAllCards());
-//
-//        return new ResponseEntity<>(cards, HttpStatus.OK);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCardById(@PathVariable("id") Long id) {
+        String deleteMessage = cardService.deleteCardById(id);
+
+        return new ResponseEntity<>(deleteMessage, HttpStatus.OK);
+    }
 }

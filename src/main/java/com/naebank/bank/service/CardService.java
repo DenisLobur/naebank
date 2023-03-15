@@ -48,6 +48,12 @@ public class CardService {
         return cardRepository.save(cardToUpdate);
     }
 
+    public String deleteCardById(Long id) {
+        cardRepository.deleteById(id);
+
+        return "Card " + id + " was deleted";
+    }
+
     private long getCurrentUserId() {
         String email = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return userRepository.findByEmail(email).get().getId();
