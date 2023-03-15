@@ -41,6 +41,13 @@ public class CardService {
         return cardRepository.findById(id).get();
     }
 
+    public CardEntity updateCardBalance(Long id, int amount) {
+        CardEntity cardToUpdate = cardRepository.findById(id).get();
+        int currentBalance = cardToUpdate.getAmount();
+        cardToUpdate.setAmount(currentBalance + amount);
+        return cardRepository.save(cardToUpdate);
+    }
+
     private long getCurrentUserId() {
         String email = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return userRepository.findByEmail(email).get().getId();

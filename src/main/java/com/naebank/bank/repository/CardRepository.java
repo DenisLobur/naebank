@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CardRepository extends JpaRepository<CardEntity, Long> {
-
     List<CardEntity> findByUserId(Long user_id);
 
 }

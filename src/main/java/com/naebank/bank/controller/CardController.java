@@ -56,6 +56,13 @@ public class CardController {
         return new ResponseEntity<>(card, HttpStatus.OK);
     }
 
+    @PatchMapping
+    public ResponseEntity<CardDto> updateCardBalance(@RequestBody CardDto cardDto) {
+        CardDto card = CardMapper.INSTANCE.toDto(cardService.updateCardBalance(cardDto.getId(), cardDto.getAmount()));
+
+        return new ResponseEntity<>(card, HttpStatus.ACCEPTED);
+    }
+
 //    @GetMapping
 //    public ResponseEntity<List<CardDto>> getAllCards() {
 //        List<CardDto> cards = CardMapper.INSTANCE.toDtoList(cardService.getAllCards());
