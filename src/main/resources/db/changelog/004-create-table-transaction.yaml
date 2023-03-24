@@ -16,13 +16,27 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: amount
-                  type: decimal
+                  type: int
               - column:
-                  name: currency_from
+                  name: type
                   type: text
               - column:
-                  name: currency_to
+                  name: card_name
                   type: text
               - column:
                   name: status
                   type: text
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user
+                    references: bank.user(id)
+              - column:
+                  name: card_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card
+                    references: bank.card(id)

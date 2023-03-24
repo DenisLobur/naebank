@@ -1,13 +1,12 @@
 package com.naebank.bank.controller.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
 public class TransactionDto {
     private Long id;
-    private Double amount;
-    private String currencyFrom; // UAH-USD
-    private String currencyTo; // UAH-USD
-    private String status;
+    private Integer amount;
+    private String type; // top-up/withdrawal
+    private String cardName; // visa 1234
+    private String status; // pending, done, rejected
 }

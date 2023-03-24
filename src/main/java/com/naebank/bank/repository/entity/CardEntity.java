@@ -1,9 +1,10 @@
 package com.naebank.bank.repository.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Setter
@@ -36,4 +37,7 @@ public class CardEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    private List<TransactionEntity> transactions;
 }

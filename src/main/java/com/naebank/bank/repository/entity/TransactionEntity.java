@@ -1,7 +1,6 @@
 package com.naebank.bank.repository.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,17 +14,25 @@ public class TransactionEntity {
     @Column
     private Long id;
 
-    @Column(scale = 2, precision = 10)
-    private Double amount;
+    @Column
+    private Integer amount;
 
     @Column
-    private String currencyFrom; // UAH-USD
+    private String type; // top-up/withdrawal
 
     @Column
-    private String currencyTo; // UAH-USD
+    private String cardName; // visa 1234
 
     @Column
-    private String status; // Passed, Failed, Pending, Declined
+    private String status; // pending, done, rejected
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "card_id", nullable = false)
+    private CardEntity card;
 
 
 }
