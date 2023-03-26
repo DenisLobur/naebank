@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/transactions")
@@ -41,8 +42,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> getAllTransactions(@Param("user_id") Long user_id) {
-        List<TransactionDto> transactions = TransactionMapper.INSTANCE.toDtoList(transactionService.getAllTransactions(user_id));
+    public ResponseEntity<List<TransactionDto>> getAllTransactions(@RequestParam Long user_id, @RequestParam(required = false) Optional<Long> card_id) {
+        List<TransactionDto> transactions = TransactionMapper.INSTANCE.toDtoList(transactionService.getAllTransactions(user_id, card_id));
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 }

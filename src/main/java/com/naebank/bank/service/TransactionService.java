@@ -39,7 +39,11 @@ public class TransactionService {
         transactionRepository.save(newTransaction);
     }
 
-    public List<TransactionEntity> getAllTransactions(Long userId) {
+    public List<TransactionEntity> getAllTransactions(Long userId, Optional<Long> cardId) {
+        if (cardId.isPresent()) {
+            return transactionRepository.findByCardId(cardId.get());
+        }
+
         return transactionRepository.findByUserId(userId);
     }
 
