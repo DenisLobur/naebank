@@ -26,6 +26,9 @@ public class TransactionEntity {
     @Column
     private String status; // pending, done, rejected
 
+    @Column
+    private Long date; // HH:mm:ss
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;

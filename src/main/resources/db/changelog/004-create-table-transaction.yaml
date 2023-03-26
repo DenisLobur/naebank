@@ -27,6 +27,9 @@ databaseChangeLog:
                   name: status
                   type: text
               - column:
+                  name: date
+                  type: bigint
+              - column:
                   name: user_id
                   type: bigint
                   constraints:

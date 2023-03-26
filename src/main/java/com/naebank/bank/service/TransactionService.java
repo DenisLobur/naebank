@@ -21,24 +21,26 @@ public class TransactionService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
 
-    public void addNewTransaction(Long cardId, Integer amount, String type, String cardName, String status) {
+    public void addNewTransaction(Long cardId, Integer amount, String type, String status) {
         TransactionEntity newTransaction = new TransactionEntity();
         newTransaction.setAmount(amount);
         newTransaction.setType(type);
-        newTransaction.setCardName(cardName);
         newTransaction.setStatus(status);
 
         Optional<CardEntity> card = cardRepository.findById(cardId);
         card.ifPresent(newTransaction::setCard);
+        card.ifPresent(crd -> newTransaction.setCardName(crd.getType()));
 
         Optional<UserEntity> currentUser = userRepository.findById(getCurrentUserId());
         currentUser.ifPresent(newTransaction::setUser);
 
+        newTransaction.setDate(System.currentTimeMillis());
+
         transactionRepository.save(newTransaction);
     }
 
-    public List<TransactionEntity> getAllTransactions() {
-        return transactionRepository.findAll();
+    public List<TransactionEntity> getAllTransactions(Long userId) {
+        return transactionRepository.findByUserId(userId);
     }
 
     private long getCurrentUserId() {

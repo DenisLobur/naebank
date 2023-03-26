@@ -45,7 +45,6 @@ public class CardController {
     @GetMapping
     public ResponseEntity<List<CardDto>> getCardsByUserId(@Param("user_id") Long user_id) {
         List<CardDto> userCards = CardMapper.INSTANCE.toDtoList(cardService.getCardsByUserId(user_id));
-
         return new ResponseEntity<>(userCards, HttpStatus.OK);
     }
 

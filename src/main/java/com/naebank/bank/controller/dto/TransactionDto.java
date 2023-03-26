@@ -9,4 +9,5 @@ public class TransactionDto {
     private String type; // top-up/withdrawal
     private String cardName; // visa 1234
     private String status; // pending, done, rejected
+    private Long date; // HH:mm:ss
 }

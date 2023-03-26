@@ -26,7 +26,6 @@ public class TransactionController {
                 cardId,
                 transactionDto.getAmount(),
                 transactionDto.getType(),
-                transactionDto.getCardName(),
                 transactionDto.getStatus()
         );
 
@@ -42,8 +41,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
-        List<TransactionDto> transactions = TransactionMapper.INSTANCE.toDtoList(transactionService.getAllTransactions());
+    public ResponseEntity<List<TransactionDto>> getAllTransactions(@Param("user_id") Long user_id) {
+        List<TransactionDto> transactions = TransactionMapper.INSTANCE.toDtoList(transactionService.getAllTransactions(user_id));
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 }
