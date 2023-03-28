@@ -1,5 +1,5 @@
 # Naebank Spring boot server
-Spring boot BE that serves HTTP requests/response to Naebank client. Basically it does CRUD for an ordinary bank operations
+Spring boot BE that serves HTTP requests/responses to Naebank client. Basically it does CRUD for an ordinary bank operations
 
 # Features
 - Register user
@@ -18,7 +18,7 @@ Spring boot BE that serves HTTP requests/response to Naebank client. Basically i
 
 # Architecture
 - data layer:
-  - Entities
+  - Entities (User, Card, Transaction)
   - Repositories
 
 - domain layer
@@ -36,6 +36,6 @@ Spring boot BE that serves HTTP requests/response to Naebank client. Basically i
 - WebSecurity with BCryptPasswordEncoder and JWT token
 
 # Overall
-- Springboot as a context/beans container. It works via restful HTTP requests/response fo no web frontend/html forms provided 
+- Springboot as a context/beans container. It works via restful HTTP requests/responses so no web frontend/html forms provided 
 
 
